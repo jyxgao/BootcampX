@@ -16,9 +16,9 @@ pool.query(`
   JOIN students ON student_id = students.id
   JOIN cohorts ON cohort_id = cohorts.id
   GROUP BY cohorts.name, teachers.name
-  HAVING cohorts.name LIKE '%${cohort || 'JUL02'}%'
+  HAVING cohorts.name LIKE $1
   ORDER BY teachers.name;
-`)
+`, [`%${cohort || 'JUL02'}%`])
 .then(res => {
   res.rows.forEach(teacher => {
     console.log(`${teacher.cohort}: ${teacher.teacher}`)
